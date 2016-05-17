@@ -55,7 +55,7 @@ sub string_to_hist {
 sub getargs {
     my %opts; #should be an HoA
     my @args = @ARGV; 
-    die "\n\nSome arguments required!\n\n" if (scalar(@args) == 0); 
+    die "\n\nSome arguments required! Try -h\n\n" if (scalar(@args) == 0); 
     my $lastflag;
     for my $i (0..(scalar(@args)-1)) {
         chomp $args[$i];

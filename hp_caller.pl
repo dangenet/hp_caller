@@ -6,10 +6,10 @@
 use strict;
 use warnings;
 use Data::Dumper;
-use My::Module qw( getargs string_to_hist hist_to_string hp_converter sample_ids cohort_ids); 
+use My::Module qw( getargs string_to_hist hist_to_string hp_converter); 
 use List::Util qw( sum max min ); 
 use List::MoreUtils qw( true any none uniq all firstidx ); 
-use Scalar::Util qw(looks_like_number); 
+use Scalar::Util qw(looks_like_number);
 use Math::Round qw( nearest_ceil nearest ); 
 use Math::BigInt; 
 use Math::BigFloat;
@@ -20,8 +20,13 @@ my $opts = &getargs;
 exit;
 
 sub main {
+    &help if defined $opts->{'-h'};
+
     my $agg = $opts->{'-v'};
-    die "input file required with -v\n" if not -e $agg;
+
+    if ( not -e $agg || not defined $opts->{'-v'} ) {
+        &help && die "input file required with -v\n" ;
+    }
     $opts->{'--min_sdp'} ||= 5;
     $opts->{'--max_sdp' } ||= 150;
     $opts->{'--nsr'} ||= 1;
@@ -30,7 +35,6 @@ sub main {
     $opts->{'--loc_max'} ||= 2500;
     $opts->{'-mp'} ||= 5; #PHRED scaled prob of a sample being different from locus
     $opts->{'--asymmetry'} ||= 0.2; #maximum fractional asymmetry around the mode in a distribution
-    $opts->{'--debug'} ||= 0;
     $opts->{'--variants_only'} ||= 0; 
     $opts->{'--minSGQ'} ||= 10; #PHRED scaled min sample distribution quality 
     $opts->{'--minQUAL'} ||= 10; #PHRED scaled quality of locus distribution quality
@@ -327,7 +331,6 @@ sub asymmetry {
 
 sub callable_sample_check { 
     #determines whether the number of uncallable samples at a locus exceeds the threshold
-    debug("callable_sample_check") if $opts->{'--debug'};
     my ( $opts, $lh, $samples ) = @_;
     my $return = 0; 
     my $uncallable_count = 0; 
@@ -385,7 +388,6 @@ sub net_supporting_reads {
 
 sub locus_qual_score {
     my ( $opts, $lh ) = @_; #opts, #locus hash histogram
-    &debug("locus_qual_score") if $opts->{'--debug'};
     my $loc_modes = &just_modes($lh);
     my @values = sort {$b<=>$a} ( @{$lh}{(keys %$lh)} );
     push @values, 1; #if there is only one value in values, add one to the end
@@ -519,6 +521,53 @@ sub vcf_printer {
     
     
     return 1;
+}
+
+sub help  {
+    
+    my $help = <<'END_HELP';
+
+USAGE: hp_caller.pl -v [data file from hp_aggregator]
+
+    -v  data file from hp_aggregator (required)
+    --min_sdp   
+        minimum sample depth for calling, default 5
+    --max_sdp   
+        maximum sample depth for calling, default 150
+    --nsr       
+        net supporting reads or the minimum number of excess
+        reads supporting a mutant call, default 1
+    --uncallable
+        maximum number of uncallable samples for a locus
+        to be considered callable, default 3
+    --loc_min   
+        minimum reads for a locus to be considered callable,
+        default 200
+    --loc_max   
+        maximum reads for a locus to be considered callable,
+        default 2500
+    -mp         
+        PHRED-scaled threshold for calling a sample as mutant,
+        default 5
+    --asymmetry 
+        maximum asymmetry of the locus distribution around its
+        mode, as fraction of total reads, default 0.2
+    --variants_only 
+        print only variants, default 0 (print all)
+    --minSGQ
+        minimum sample genotype quality required for a sample
+        to be considered callable, default 10
+    --minQUAL
+        minimum locus quality required for locus to be considered
+        callable, default 10
+            
+    Both QUAL scores are:
+       100 * ( mode counts - 2nd most abundant counts) / total depth
+
+END_HELP
+    
+    print STDERR $help;
+    exit 0; 
 }
 
 
