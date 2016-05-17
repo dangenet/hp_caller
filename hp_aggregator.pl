@@ -21,6 +21,33 @@ use Time::HiRes qw(gettimeofday);
 use List::Util qw(max min sum); 
 use List::MoreUtils qw(uniq none indexes firstidx any); 
 
+&help;
+
+sub help {
+    my $helpmsg = <<"END_HELP"; 
+    
+Usage: hp_aggregator.pl --bedfile [required] --refseq [required] --bamfiles [required][whitespace separated list]
+    
+    note that this was written for samtools v 0.19+ and may not work right with newer samtools
+    
+    this script analyzes homopolymer-spanning reads in a list of bamfiles 
+    output is vcf-like format, containing per sample histograms for each locus provided in the bam file
+    required inputs
+    --bedfile    bed format file containing list of homopolymers
+    --refseq     fasta format file containing reference sequences
+    --bamfiles   list of bam files to use (will output one sample field per bam file), I use globs
+    also outputs a pattern length report in text format, which tells you about the distribution
+    of the lengths of flanking sequences used to determine where homopolymers end
+    bed file should be CHROM START END HP SCORE STRAND where 
+    "HP" is A:8 for the sequence AAAAAAAA
+    It doesn't matter what "SCORE" is. 
+    
+    
+    
+END_HELP    
+    print $helpmsg;
+}
+
 &main;
 exit;
 
