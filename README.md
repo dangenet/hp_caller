@@ -9,7 +9,7 @@ look for the .fai file.
 
 Your bedfile should have the columns CHROM START END HP SCORE STRAND where 
     "HP" is A:8 for the sequence AAAAAAAA
-It doesn't matter what you put for the score.
+It doesn't  matter what you put for the score.
 
 I used bowtie2 to make my bam files and picard to mark duplicates. 
 

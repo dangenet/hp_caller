@@ -7,6 +7,8 @@
 R="your_reference_genome.fasta"
 B="put_the_name_you_want_your_homopolymer_bed_file_to_have_here.bed"
 
+samtools faidx $R
+
 hp_finder_BED.pl < $R > $B 
 
 hp_aggregator.pl --bedfile $B --refseq $R --bamfiles ./*.bam > "name_of_raw_data_file.agg"
