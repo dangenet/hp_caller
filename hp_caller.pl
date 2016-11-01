@@ -204,7 +204,7 @@ sub locus_caller {
             if (&callable_sample( $opts, $lh->{$s}->{"DP"}, $locus_hist->{$s} ) 
             &&  $sph->{$s} <= 10 ** ( -1 * $opts->{'-mp'} )
             &&  $loc_modes->{$s}->[0] != $loc_modes->{"LOCUS"}->[0] ) {
-                #sample is callable, has different mode and meets GQ threshold
+                #sample is callable, has different mode and meets MP threshold
                 $vsf->{$s} = 1; 
                 # add allele to the list if not already represented
                 if ( none { $loc_modes->{$s}->[0] == $_ } @loc_alleles ) {
