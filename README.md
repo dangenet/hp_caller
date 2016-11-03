@@ -65,3 +65,9 @@ the hypothesis that the homopolymer is of length L2.
 --minQUAL [integer]
 	Default 10. PHRED-scaled minimum locus distribution quality score for callable loci. No samples will be called at loci with quality scores less than this threshold. 
 
+************
+These scripts are intended as proof of concept rather than as tools ready to drop into a pipeline. 
+
+
+You can reach me at @dangenet on Twitter or github. 
+
