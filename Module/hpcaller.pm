@@ -96,6 +96,7 @@ sub getargs {
 }
 
 sub simple_histogram {
+    #makes a histogram and returns it as an HoA
     my $array = shift @_; 
     return 1 if not defined @$array; 
     my $hist = (); 
@@ -123,6 +124,7 @@ sub find_hist_max {
 }
 
 sub stats_basic {
+    #returns some basic statistical parameters given an input histogram as an HoA
     use List::Util qw( max );
     # takes a histogram stored in hashref
     my ( $h ) = @_ ;
