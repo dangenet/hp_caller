@@ -1,7 +1,9 @@
 # hp_caller
 
 Requirements:
-samtools v0.19+
+
+samtools v0.1.19+
+
 Perl v5.12
 - Math::Round
 - Math::BigInt
