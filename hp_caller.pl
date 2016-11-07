@@ -36,9 +36,10 @@ sub main {
     $opts->{'-mp'} ||= 5; #PHRED scaled prob of a sample being different from locus
     $opts->{'--asymmetry'} ||= 0.2; #maximum fractional asymmetry around the mode in a distribution
     $opts->{'--variants_only'} ||= 0; 
-    $opts->{'--minSGQ'} ||= 10; #PHRED scaled min sample distribution quality 
-    $opts->{'--minQUAL'} ||= 10; #PHRED scaled quality of locus distribution quality
-    # both QUAL scores are 100 * ( mode counts - 2nd most abundant counts) / total depth
+    $opts->{'--minSGQ'} ||= 10; # min sample distribution quality 
+    $opts->{'--minLQ'} ||= 10; # minimum locus distribution quality
+    # both quality scores are 100 * ( mode counts - 2nd most abundant counts) / total depth
+    $opts->{'--minQUAL'} = $opts->{'--minLQ'}; # map user facing variable name to internal variable name
     
     # print parameters
     
@@ -557,7 +558,7 @@ USAGE: hp_caller.pl -v [data file from hp_aggregator]
     --minSGQ
         minimum sample genotype quality required for a sample
         to be considered callable, default 10
-    --minQUAL
+    --minLQ
         minimum locus quality required for locus to be considered
         callable, default 10
             
