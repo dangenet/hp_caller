@@ -562,7 +562,7 @@ USAGE: hp_caller.pl -v [data file from hp_aggregator]
         minimum locus quality required for locus to be considered
         callable, default 10
             
-    Both QUAL scores are:
+    Both quality scores are:
        100 * ( mode counts - 2nd most abundant counts) / total depth
 
 END_HELP
