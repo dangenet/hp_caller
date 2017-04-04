@@ -99,5 +99,5 @@ Remaining columns: Sample data fields.
 These scripts are intended as proof of concept rather than as tools ready to drop into a pipeline. 
 
 
-You can reach me at @dangenet on Twitter or github. 
+Best ways to reach me are dan.eyler@gmail.com or github @dangenet. 
 
